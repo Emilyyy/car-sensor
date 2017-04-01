@@ -43,7 +43,7 @@
     OS_STK        AppStartTaskStk[APP_TASK_START_STK_SIZE];
     OS_STK        LCD_TestTaskStk[LCD_TASK_STK_SIZE];
   
-    			 
+     
   
 
 
@@ -69,36 +69,36 @@ extern  void  AppProbeInit(void);
 /*Converts values from ATD and returns range in centimeters*/
 static unsigned int get_ir_range(unsigned int atd_result)
 {
-	int range = 0 ; //range is in cm
+int range = 0 ; //range is in cm
 
-	if (atd_result >= 519) {  range = 10;  }
-	else if (atd_result >= 483) {  range = 11;  }
- 	else if (atd_result >= 447) {  range = 12;  }
- 	else if (atd_result >= 418) {  range = 13;  }
- 	else if (atd_result >= 390) {  range = 14; }
- 	else if (atd_result >= 369) {  range = 15;  }
- 	else if (atd_result >= 348) {  range = 16; }	 
- 	else if (atd_result >= 331) {  range = 17;  }
-	else if (atd_result >= 315) {  range = 18; }	 
-	else if (atd_result >= 299) {  range = 19;  }
-	else if (atd_result >= 284) {  range = 20; }
-	else if (atd_result >= 271) {  range = 21;  }
- 	else if (atd_result >= 259) {  range = 22; }
- 	else if (atd_result >= 253) {  range = 23;  }
- 	else if (atd_result >= 247) {  range = 24; }
- 	else if (atd_result >= 237) {  range = 25;  }
- 	else if (atd_result >= 227) {  range = 26; }	 
- 	else if (atd_result >= 218) {  range = 27;  }
-	else if (atd_result >= 210) {  range = 28; }	 
-	else if (atd_result >= 203) {  range = 29; }
-	else if (atd_result >= 197) {  range = 30; }
-	else if (atd_result >= 192) {  range = 31; }
- 	else if (atd_result >= 187) {  range = 32; }
- 	else if (atd_result >= 182) {  range = 33; }
- 	else if (atd_result >= 178) {  range = 34; }
- 	else if (atd_result >= 171) {  range = 35; }
+if (atd_result >= 519) {  range = 10;  }
+else if (atd_result >= 483) {  range = 11;  }
+  else if (atd_result >= 447) {  range = 12;  }
+  else if (atd_result >= 418) {  range = 13;  }
+  else if (atd_result >= 390) {  range = 14; }
+  else if (atd_result >= 369) {  range = 15;  }
+  else if (atd_result >= 348) {  range = 16; }  
+  else if (atd_result >= 331) {  range = 17;  }
+else if (atd_result >= 315) {  range = 18; }  
+else if (atd_result >= 299) {  range = 19;  }
+else if (atd_result >= 284) {  range = 20; }
+else if (atd_result >= 271) {  range = 21;  }
+  else if (atd_result >= 259) {  range = 22; }
+  else if (atd_result >= 253) {  range = 23;  }
+  else if (atd_result >= 247) {  range = 24; }
+  else if (atd_result >= 237) {  range = 25;  }
+  else if (atd_result >= 227) {  range = 26; }  
+  else if (atd_result >= 218) {  range = 27;  }
+else if (atd_result >= 210) {  range = 28; }  
+else if (atd_result >= 203) {  range = 29; }
+else if (atd_result >= 197) {  range = 30; }
+else if (atd_result >= 192) {  range = 31; }
+  else if (atd_result >= 187) {  range = 32; }
+  else if (atd_result >= 182) {  range = 33; }
+  else if (atd_result >= 178) {  range = 34; }
+  else if (atd_result >= 171) {  range = 35; }
 
-	return range;
+return range;
 }
 
 
@@ -145,16 +145,16 @@ void  main (void)
 *                  used.  The compiler should not generate any code for this statement.
 *               2) Interrupts are enabled once the task start because the I-bit of the CCR register was
 *                  set to 0 by 'OSTaskCreate()'.
-*				3) After this created from main(), it runs and initializes additional application
+* 3) After this created from main(), it runs and initializes additional application
 *                  modules and tasks. Rather than deleting the task, it is simply suspended
 *                  periodically. This tasks body could be used for additional work if desired.
 *********************************************************************************************************
 */
 
 static  void  AppStartTask (void *p_arg)
-{		
+{ 
    (void)p_arg;
-   		  
+     
     BSP_Init();                                                         /* Initialize the ticker, and other BSP related functions   */
 
 #if OS_TASK_STAT_EN > 0
@@ -243,18 +243,32 @@ static  void  change_LCD(void *p_arg)
   (void)p_arg;
   /*Initialize ATD and LCD Display 2-rows and 16-coloumns*/
   atd_init();
-	DispInit(2, 16);
-	range_cm = 0;
-	pwm_init();
-	/*assigns portB to output*/  
-  DDRB = 0xFF;   	
-	while (DEF_TRUE) { /* All tasks bodies include an infinite loop */           
+DispInit(2, 16);
+range_cm = 0;
+pwm_init();
+PWMPRCLK=0x04; //ClockA=Fbus/2**4=24MHz/16=1.5MHz 
+PWMSCLA=125; //ClockSA=1.5MHz/2x125=6000 Hz
+PWMCLK=0b00100000; //ClockSA for chan 5
+PWMPOL=0x20;     //high then low for polarity
+PWMCAE=0x0;     //left aligned
+PWMCTL=0x0;         //8-bit chan, pwm during freeze and wait
+
+PWMDTY5=50; //50% duty cycle                        AND THIS TO GET DIFFERENT SOUND
+PWMCNT5=0; //clear initial counter. This is optional
+PWME=0x20;   //Enable chan 5 PWM
+/*assigns portB to output*/  
+  DDRB = 0xFF;  
+while (DEF_TRUE) { /* All tasks bodies include an infinite loop */           
 
           /*Acquire range from function get_ir_range, input is ATD0DR6 because we are using channel 6 of ATD*/
           range_cm = get_ir_range(ATD0DR6);
-          
+          if (range_cm == 0) {
+             DispClrLine(1);
+             DispStr(1,0,"CRASH");
+             PORTB=0xFF;
+          }
           /*limits the IR detection range to 35cm*/
-          if(range_cm <= 35 && range_cm >= 0) 
+          else if(range_cm <= 35 && range_cm > 0) 
           {
               /*Displays the Range on LCD*/
               DispStr(0,0,RangeStr[range_cm]);
@@ -265,43 +279,51 @@ static  void  change_LCD(void *p_arg)
               /*If range is greater then 20cm then turn on motor*/
               if(range_cm >= 20) {
                 DispClrLine(1);
-                DispStr(1,0,"FASTER");
+                DispStr(1,0,"SAFE");
                 PORTB=0xFF;
-                PWMDTY0 = 130;  
+                //PWMDTY0 = 130;
+                PWMPER5=50; //PWM_Freq=ClockSA/100=6000Hz/100=60Hz. CHANGE THIS  
               }
               /*If range is between 20 and 13 then slow down*/ 
               else if(range_cm >= 13) {
                 DispClrLine(1);
                 DispStr(1,0,"SLOW DOWN");
-                PWMDTY0 = 110; 
+                PWMPER5=250; //PWM_Freq=ClockSA/100=6000Hz/100=60Hz. CHANGE THIS 
+                //PWMDTY0 = 110; 
               }
               /*if range is less then 13cm then stop the motor*/
               else {
                 DispClrLine(1);
-                DispStr(1,0,"STOP");
+                DispStr(1,0,"DANGEROUS");
                 PORTB=0x00;
-                PWMDTY0 = 0; 
+                PWMPER5=600; //PWM_Freq=ClockSA/100=6000Hz/100=60Hz. CHANGE THIS 
+                //PWMDTY0 = 0; 
               }
               
+          } else {
+                DispClrLine(1);
+                DispStr(1,0,"Moving...");
+                PORTB=0xFF;
           }
+                
 
   }
 }
 /*Initialize Analog-to-Digital converter at PAD06*/
 static void atd_init(void)
 {
-	ATD0CTL2 = 0x80;     /* Power up A/D, no interrupts */
-	ATD0CTL3 = 0x00;     /* Doe eight conversions */
-	//ATD0CTL4 = 0x85;   /* 8-bit mode */
-	ATD0CTL4 = 0x05;     /* 10-bit mode */
-	ATD0CTL5 = 0xA6;     /* 1 0 1 0 0 1 0 0
-            							| | | |   \___/
-						            	| | | |     |
-							            | | | |     \__ Bit 4 of Port AD --> PAD06
-							            | | | \________ MULT = 0 => one channel only
-							            | | \__________ Scan = 1 => continuous conversion
-							            | \____________ DSGN = 0 => unsigned
-							            \______________ DJM = 1 => right justified */
+ATD0CTL2 = 0x80;     /* Power up A/D, no interrupts */
+ATD0CTL3 = 0x00;     /* Doe eight conversions */
+//ATD0CTL4 = 0x85;   /* 8-bit mode */
+ATD0CTL4 = 0x05;     /* 10-bit mode */
+ATD0CTL5 = 0xA6;     /* 1 0 1 0 0 1 0 0
+            | | | |   \___/
+            | | | |     |
+           | | | |     \__ Bit 4 of Port AD --> PAD06
+           | | | \________ MULT = 0 => one channel only
+           | | \__________ Scan = 1 => continuous conversion
+           | \____________ DSGN = 0 => unsigned
+           \______________ DJM = 1 => right justified */
 }
 
 static void pwm_init(void)
@@ -315,4 +337,3 @@ static void pwm_init(void)
     PWMSCLA = 0x06;   
     PWMPER0 = 0x84;    
 }
-
