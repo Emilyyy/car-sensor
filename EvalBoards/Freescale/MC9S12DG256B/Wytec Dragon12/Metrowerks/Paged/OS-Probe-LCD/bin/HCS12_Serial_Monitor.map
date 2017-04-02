@@ -69,7 +69,7 @@ Section Name                    Size  Type     From       To       Segment
 .rodata1                         186     R     0xC11F     0xC1D8   ROM_C000
 NON_BANKED                      1072     R     0xC1D9     0xC608   ROM_C000
 .copy                              2     R     0xC609     0xC60A   ROM_C000
-.text                          12435     R   0x308000   0x30B092   PAGE_30
+.text                          12645     R   0x308000   0x30B164   PAGE_30
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
@@ -415,10 +415,10 @@ NON_BANKED                      1072     R     0xC1D9     0xC608   ROM_C000
 .abs_section_ff80                128     R     0xFF80     0xFFFF   .absSeg341
 .bss                             780   R/W     0x1100     0x140B   RAM
 .common                         5168   R/W     0x140C     0x283B   RAM
-cpu_a.s._SEC000000                 8     R   0x30B093   0x30B09A   PAGE_30
+cpu_a.s._SEC000000                 8     R   0x30B165   0x30B16C   PAGE_30
 
 Summary of section sizes per section type:
-READ_ONLY (R):        3726 (dec:    14118)
+READ_ONLY (R):        37F8 (dec:    14328)
 READ_WRITE (R/W):     183C (dec:     6204)
 NO_INIT (N/I):         190 (dec:      400)
 
@@ -749,7 +749,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _ATD0DR7                                    9E       2       2       0   .abs_section_9e
      _PWMCNT01                                   AC       2       2       0   .abs_section_ac
      _PWMCNT23                                   AE       2       2       0   .abs_section_ae
-     _PWMCNT45                                   B0       2       2       1   .abs_section_b0
+     _PWMCNT45                                   B0       2       2       2   .abs_section_b0
      _PWMCNT67                                   B2       2       2       0   .abs_section_b2
      _PWMPER01                                   B4       2       2       1   .abs_section_b4
      _PWMPER23                                   B6       2       2       0   .abs_section_b6
@@ -1065,8 +1065,8 @@ MODULE:                 -- lib_mem.c.o --
 - VARIABLES:
 MODULE:                 -- cpu_a.s.o --
 - PROCEDURES:
-     CPU_SR_Save                             30B093       5       5       2   cpu_a.s._SEC000000
-     CPU_SR_Restore                          30B098       3       3       2   cpu_a.s._SEC000000
+     CPU_SR_Save                             30B165       5       5       2   cpu_a.s._SEC000000
+     CPU_SR_Restore                          30B16A       3       3       2   cpu_a.s._SEC000000
 - VARIABLES:
 MODULE:                 -- vectors.c.o --
 - PROCEDURES:
@@ -1134,13 +1134,13 @@ MODULE:                 -- vectors.c.o --
      _vect                                     FF80      80     128       0   .abs_section_ff80
 MODULE:                 -- app.c.o --
 - PROCEDURES:
-     get_ir_range                            309A72      F7     247       2   .text       
-     main                                    309B69      40      64       2   .text       
-     AppStartTask                            309BA9      1F      31       3   .text       
-     AppTaskCreate                           309BC8      27      39       2   .text       
-     change_LCD                              309BEF    103C    4156       5   .text       
-     atd_init                                30AC2B       F      15       2   .text       
-     pwm_init                                30AC3A      13      19       2   .text       
+     get_ir_range                            309A72     1C6     454       2   .text       
+     main                                    309C38      40      64       2   .text       
+     AppStartTask                            309C78      1F      31       3   .text       
+     AppTaskCreate                           309C97      27      39       2   .text       
+     change_LCD                              309CBE    103F    4159       5   .text       
+     atd_init                                30ACFD       F      15       2   .text       
+     pwm_init                                30AD0C      13      19       2   .text       
 - VARIABLES:
      STRING.Start.Task.1                       C1A5       B      11       1   .rodata1    
      STRING.CRASH.48                           C1B0       6       6       1   .rodata1    
@@ -1152,17 +1152,17 @@ MODULE:                 -- app.c.o --
      LCD_TestTaskStk                           2454     3E8    1000       2   .common     
 MODULE:                 -- app_hooks.c.o --
 - PROCEDURES:
-     App_TaskCreateHook                      30AC4D       5       5       2   .text       
-     App_TaskIdleHook                        30AC52       1       1       2   .text       
-     App_TaskStatHook                        30AC53       1       1       2   .text       
-     App_TaskSwHook                          30AC54       5       5       2   .text       
-     App_TCBInitHook                         30AC59       1       1       2   .text       
-     App_TimeTickHook                        30AC5A       5       5       2   .text       
+     App_TaskCreateHook                      30AD1F       5       5       2   .text       
+     App_TaskIdleHook                        30AD24       1       1       2   .text       
+     App_TaskStatHook                        30AD25       1       1       2   .text       
+     App_TaskSwHook                          30AD26       5       5       2   .text       
+     App_TCBInitHook                         30AD2B       1       1       2   .text       
+     App_TimeTickHook                        30AD2C       5       5       2   .text       
 - VARIABLES:
 MODULE:                 -- app_probe.c.o --
 - PROCEDURES:
-     AppProbeInit                            30AC5F      27      39       2   .text       
-     AppProbeCallback                        30AC86     155     341       8   .text       
+     AppProbeInit                            30AD31      27      39       2   .text       
+     AppProbeCallback                        30AD58     155     341       8   .text       
 - VARIABLES:
      Probe_ComRxPktSpd                         13DB       4       4       2   .bss        
      Probe_ComTxPktSpd                         13DF       4       4       2   .bss        
@@ -1186,15 +1186,15 @@ MODULE:                 -- os_cpu_a.s.o --
 - VARIABLES:
 MODULE:                 -- os_cpu_c.c.o --
 - PROCEDURES:
-     OSInitHookBegin                         30ADDB       6       6       2   .text       
-     OSInitHookEnd                           30ADE1       1       1       2   .text       
-     OSTaskCreateHook                        30ADE2       5       5       2   .text       
-     OSTaskIdleHook                          30ADE7       5       5       2   .text       
-     OSTaskStatHook                          30ADEC       5       5       2   .text       
-     OSTaskStkInit                           30ADF1      2E      46       2   .text       
-     OSTaskSwHook                            30AE1F       5       5       6   .text       
-     OSTCBInitHook                           30AE24       5       5       2   .text       
-     OSTimeTickHook                          30AE29      1A      26       2   .text       
+     OSInitHookBegin                         30AEAD       6       6       2   .text       
+     OSInitHookEnd                           30AEB3       1       1       2   .text       
+     OSTaskCreateHook                        30AEB4       5       5       2   .text       
+     OSTaskIdleHook                          30AEB9       5       5       2   .text       
+     OSTaskStatHook                          30AEBE       5       5       2   .text       
+     OSTaskStkInit                           30AEC3      2E      46       2   .text       
+     OSTaskSwHook                            30AEF1       5       5       6   .text       
+     OSTCBInitHook                           30AEF6       5       5       2   .text       
+     OSTimeTickHook                          30AEFB      1A      26       2   .text       
 - VARIABLES:
      OSTmrCtr                                  1403       2       2       4   .bss        
 MODULE:                 -- sevenSegment.s.o --
@@ -1204,26 +1204,26 @@ MODULE:                 -- sevenSegment.s.o --
 - VARIABLES:
 MODULE:                 -- bsp.c.o --
 - PROCEDURES:
-     BSP_Init                                30AE43      13      19       2   .text       
-     PLL_Init                                30AE56      19      25       2   .text       
-     BSP_CPU_ClkFreq                         30AE6F      1F      31       4   .text       
-     LED_Init                                30AE8E       D      13       2   .text       
-     OSTickISR_Init                          30AE9B      3F      63       2   .text       
-     OSTickISR_Handler                       30AEDA       F      15       2   .text       
-     BSP_SetECT_Prescaler                    30AEE9      56      86       2   .text       
-     DispInitPort                            30AF3F       4       4       2   .text       
-     DispSel                                 30AF43       B      11      10   .text       
-     DispDataWr                              30AF4E      3C      60      12   .text       
-     DispDataWrOneNibble                     30AF8A      1D      29       4   .text       
-     DispDly_uS                              30AFA7      18      24      12   .text       
-     OSProbe_TmrInit                         30AFBF       1       1       2   .text       
-     OSProbe_TmrRd                           30AFC0       6       6       2   .text       
+     BSP_Init                                30AF15      13      19       2   .text       
+     PLL_Init                                30AF28      19      25       2   .text       
+     BSP_CPU_ClkFreq                         30AF41      1F      31       4   .text       
+     LED_Init                                30AF60       D      13       2   .text       
+     OSTickISR_Init                          30AF6D      3F      63       2   .text       
+     OSTickISR_Handler                       30AFAC       F      15       2   .text       
+     BSP_SetECT_Prescaler                    30AFBB      56      86       2   .text       
+     DispInitPort                            30B011       4       4       2   .text       
+     DispSel                                 30B015       B      11      10   .text       
+     DispDataWr                              30B020      3C      60      12   .text       
+     DispDataWrOneNibble                     30B05C      1D      29       4   .text       
+     DispDly_uS                              30B079      18      24      12   .text       
+     OSProbe_TmrInit                         30B091       1       1       2   .text       
+     OSProbe_TmrRd                           30B092       6       6       2   .text       
 - VARIABLES:
      OSTickCnts                                1405       2       2       2   .bss        
 MODULE:                 -- sevenSegment.c.o --
 - PROCEDURES:
-     SevenSegDisp_ISR_Handler                30AFC6      6D     109       2   .text       
-     SevenSegOut                             30B033      60      96       2   .text       
+     SevenSegDisp_ISR_Handler                30B098      6D     109       2   .text       
+     SevenSegOut                             30B105      60      96       2   .text       
 - VARIABLES:
      nbrCnts                                   1407       2       2       1   .bss        
      outputNum                                 1409       2       2       4   .bss        
@@ -1260,7 +1260,7 @@ MODULE STATISTIC
   lib_mem.c.o                                  0    120      0
   cpu_a.s.o                                    0      8      0
   vectors.c.o                                  0    120    128
-  app.c.o                                   1256   4571     52
+  app.c.o                                   1256   4781     52
   app_hooks.c.o                                0     18      0
   app_probe.c.o                               40    380      0
   os_cpu_a.s.o                                 0    113      0
@@ -2156,7 +2156,7 @@ OBJECT LIST SORTED BY ADDRESS
      _PWMSCLB                                    A9       1       1       0   .abs_section_a9
      _PWMCNT01                                   AC       2       2       0   .abs_section_ac
      _PWMCNT23                                   AE       2       2       0   .abs_section_ae
-     _PWMCNT45                                   B0       2       2       1   .abs_section_b0
+     _PWMCNT45                                   B0       2       2       2   .abs_section_b0
      _PWMCNT67                                   B2       2       2       0   .abs_section_b2
      _PWMPER01                                   B4       2       2       1   .abs_section_b4
      _PWMPER23                                   B6       2       2       0   .abs_section_b6
@@ -2696,48 +2696,48 @@ OBJECT LIST SORTED BY ADDRESS
      DispInit                                30993C      76     118       2   .text       
      DispStr                                 3099B2      48      72      10   .text       
      Mem_Copy                                3099FA      78     120       6   .text       
-     get_ir_range                            309A72      F7     247       2   .text       
-     main                                    309B69      40      64       2   .text       
-     AppStartTask                            309BA9      1F      31       3   .text       
-     AppTaskCreate                           309BC8      27      39       2   .text       
-     change_LCD                              309BEF    103C    4156       5   .text       
-     atd_init                                30AC2B       F      15       2   .text       
-     pwm_init                                30AC3A      13      19       2   .text       
-     App_TaskCreateHook                      30AC4D       5       5       2   .text       
-     App_TaskIdleHook                        30AC52       1       1       2   .text       
-     App_TaskStatHook                        30AC53       1       1       2   .text       
-     App_TaskSwHook                          30AC54       5       5       2   .text       
-     App_TCBInitHook                         30AC59       1       1       2   .text       
-     App_TimeTickHook                        30AC5A       5       5       2   .text       
-     AppProbeInit                            30AC5F      27      39       2   .text       
-     AppProbeCallback                        30AC86     155     341       8   .text       
-     OSInitHookBegin                         30ADDB       6       6       2   .text       
-     OSInitHookEnd                           30ADE1       1       1       2   .text       
-     OSTaskCreateHook                        30ADE2       5       5       2   .text       
-     OSTaskIdleHook                          30ADE7       5       5       2   .text       
-     OSTaskStatHook                          30ADEC       5       5       2   .text       
-     OSTaskStkInit                           30ADF1      2E      46       2   .text       
-     OSTaskSwHook                            30AE1F       5       5       6   .text       
-     OSTCBInitHook                           30AE24       5       5       2   .text       
-     OSTimeTickHook                          30AE29      1A      26       2   .text       
-     BSP_Init                                30AE43      13      19       2   .text       
-     PLL_Init                                30AE56      19      25       2   .text       
-     BSP_CPU_ClkFreq                         30AE6F      1F      31       4   .text       
-     LED_Init                                30AE8E       D      13       2   .text       
-     OSTickISR_Init                          30AE9B      3F      63       2   .text       
-     OSTickISR_Handler                       30AEDA       F      15       2   .text       
-     BSP_SetECT_Prescaler                    30AEE9      56      86       2   .text       
-     DispInitPort                            30AF3F       4       4       2   .text       
-     DispSel                                 30AF43       B      11      10   .text       
-     DispDataWr                              30AF4E      3C      60      12   .text       
-     DispDataWrOneNibble                     30AF8A      1D      29       4   .text       
-     DispDly_uS                              30AFA7      18      24      12   .text       
-     OSProbe_TmrInit                         30AFBF       1       1       2   .text       
-     OSProbe_TmrRd                           30AFC0       6       6       2   .text       
-     SevenSegDisp_ISR_Handler                30AFC6      6D     109       2   .text       
-     SevenSegOut                             30B033      60      96       2   .text       
-     CPU_SR_Save                             30B093       5       5       2   cpu_a.s._SEC000000
-     CPU_SR_Restore                          30B098       3       3       2   cpu_a.s._SEC000000
+     get_ir_range                            309A72     1C6     454       2   .text       
+     main                                    309C38      40      64       2   .text       
+     AppStartTask                            309C78      1F      31       3   .text       
+     AppTaskCreate                           309C97      27      39       2   .text       
+     change_LCD                              309CBE    103F    4159       5   .text       
+     atd_init                                30ACFD       F      15       2   .text       
+     pwm_init                                30AD0C      13      19       2   .text       
+     App_TaskCreateHook                      30AD1F       5       5       2   .text       
+     App_TaskIdleHook                        30AD24       1       1       2   .text       
+     App_TaskStatHook                        30AD25       1       1       2   .text       
+     App_TaskSwHook                          30AD26       5       5       2   .text       
+     App_TCBInitHook                         30AD2B       1       1       2   .text       
+     App_TimeTickHook                        30AD2C       5       5       2   .text       
+     AppProbeInit                            30AD31      27      39       2   .text       
+     AppProbeCallback                        30AD58     155     341       8   .text       
+     OSInitHookBegin                         30AEAD       6       6       2   .text       
+     OSInitHookEnd                           30AEB3       1       1       2   .text       
+     OSTaskCreateHook                        30AEB4       5       5       2   .text       
+     OSTaskIdleHook                          30AEB9       5       5       2   .text       
+     OSTaskStatHook                          30AEBE       5       5       2   .text       
+     OSTaskStkInit                           30AEC3      2E      46       2   .text       
+     OSTaskSwHook                            30AEF1       5       5       6   .text       
+     OSTCBInitHook                           30AEF6       5       5       2   .text       
+     OSTimeTickHook                          30AEFB      1A      26       2   .text       
+     BSP_Init                                30AF15      13      19       2   .text       
+     PLL_Init                                30AF28      19      25       2   .text       
+     BSP_CPU_ClkFreq                         30AF41      1F      31       4   .text       
+     LED_Init                                30AF60       D      13       2   .text       
+     OSTickISR_Init                          30AF6D      3F      63       2   .text       
+     OSTickISR_Handler                       30AFAC       F      15       2   .text       
+     BSP_SetECT_Prescaler                    30AFBB      56      86       2   .text       
+     DispInitPort                            30B011       4       4       2   .text       
+     DispSel                                 30B015       B      11      10   .text       
+     DispDataWr                              30B020      3C      60      12   .text       
+     DispDataWrOneNibble                     30B05C      1D      29       4   .text       
+     DispDly_uS                              30B079      18      24      12   .text       
+     OSProbe_TmrInit                         30B091       1       1       2   .text       
+     OSProbe_TmrRd                           30B092       6       6       2   .text       
+     SevenSegDisp_ISR_Handler                30B098      6D     109       2   .text       
+     SevenSegOut                             30B105      60      96       2   .text       
+     CPU_SR_Save                             30B165       5       5       2   cpu_a.s._SEC000000
+     CPU_SR_Restore                          30B16A       3       3       2   cpu_a.s._SEC000000
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -3804,5 +3804,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 7
-Total size of all blocks to be downloaded: 14118
+Total size of all blocks to be downloaded: 14328
 

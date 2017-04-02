@@ -69,36 +69,60 @@ extern  void  AppProbeInit(void);
 /*Converts values from ATD and returns range in centimeters*/
 static unsigned int get_ir_range(unsigned int atd_result)
 {
-int range = 0 ; //range is in cm
+	int range = 0 ; //range is in cm
 
-if (atd_result >= 519) {  range = 10;  }
-else if (atd_result >= 483) {  range = 11;  }
-  else if (atd_result >= 447) {  range = 12;  }
-  else if (atd_result >= 418) {  range = 13;  }
-  else if (atd_result >= 390) {  range = 14; }
-  else if (atd_result >= 369) {  range = 15;  }
-  else if (atd_result >= 348) {  range = 16; }  
-  else if (atd_result >= 331) {  range = 17;  }
-else if (atd_result >= 315) {  range = 18; }  
-else if (atd_result >= 299) {  range = 19;  }
-else if (atd_result >= 284) {  range = 20; }
-else if (atd_result >= 271) {  range = 21;  }
-  else if (atd_result >= 259) {  range = 22; }
-  else if (atd_result >= 253) {  range = 23;  }
-  else if (atd_result >= 247) {  range = 24; }
-  else if (atd_result >= 237) {  range = 25;  }
-  else if (atd_result >= 227) {  range = 26; }  
-  else if (atd_result >= 218) {  range = 27;  }
-else if (atd_result >= 210) {  range = 28; }  
-else if (atd_result >= 203) {  range = 29; }
-else if (atd_result >= 197) {  range = 30; }
-else if (atd_result >= 192) {  range = 31; }
-  else if (atd_result >= 187) {  range = 32; }
-  else if (atd_result >= 182) {  range = 33; }
-  else if (atd_result >= 178) {  range = 34; }
-  else if (atd_result >= 171) {  range = 35; }
-
-return range;
+	if (atd_result >= 519) {  range = 10;  }
+	else if (atd_result >= 483) {  range = 11;  }
+        else if (atd_result >= 447) {  range = 12;  }
+        else if (atd_result >= 418) {  range = 13;  }
+        else if (atd_result >= 390) {  range = 14; }
+        else if (atd_result >= 369) {  range = 15;  }
+        else if (atd_result >= 348) {  range = 16; }  
+        else if (atd_result >= 331) {  range = 17;  }
+        else if (atd_result >= 315) {  range = 18; }  
+        else if (atd_result >= 299) {  range = 19;  }
+        else if (atd_result >= 284) {  range = 20; }
+        else if (atd_result >= 271) {  range = 21;  }
+        else if (atd_result >= 259) {  range = 22; }
+        else if (atd_result >= 253) {  range = 23;  }
+        else if (atd_result >= 247) {  range = 24; }
+        else if (atd_result >= 237) {  range = 25;  }
+        else if (atd_result >= 227) {  range = 26; }  
+        else if (atd_result >= 218) {  range = 27;  }
+        else if (atd_result >= 210) {  range = 28; }  
+        else if (atd_result >= 203) {  range = 29; }
+        else if (atd_result >= 197) {  range = 30; }
+        else if (atd_result >= 192) {  range = 31; }
+        else if (atd_result >= 187) {  range = 32; }
+        else if (atd_result >= 182) {  range = 33; }
+        else if (atd_result >= 178) {  range = 34; }
+        else if (atd_result >= 171) {  range = 35; }
+ 	else if (atd_result >= 165) {  range = 36; }
+ 	else if (atd_result >= 161) {  range = 38; }
+ 	else if (atd_result >= 152) {  range = 40; }
+ 	else if (atd_result >= 149) {  range = 42; }
+ 	else if (atd_result >= 133) {  range = 44; }
+ 	else if (atd_result >= 134) {  range = 46; }
+ 	else if (atd_result >= 132) {  range = 48; }
+ 	else if (atd_result >= 124) {  range = 50; }
+ 	else if (atd_result >= 118) {  range = 52; }
+ 	else if (atd_result >= 115) {  range = 54; }
+ 	else if (atd_result >= 106) {  range = 56; }	 
+	else if (atd_result >= 104) {  range = 58; }
+ 	else if (atd_result >= 107) {  range = 60; }
+ 	else if (atd_result >= 102) {  range = 62; }
+ 	else if (atd_result >= 101) {  range = 64; }
+ 	else if (atd_result >= 98) {  range = 66; }
+ 	else if (atd_result >= 94) {  range = 68; }
+ 	else if (atd_result >= 86) {  range = 70; }
+ 	else if (atd_result >= 83) {  range = 72; }
+ 	else if (atd_result >= 82) {  range = 74; }
+ 	else if (atd_result >= 86) {  range = 76; }
+ 	else if (atd_result >= 84) {  range = 78; }
+ 	else if (atd_result >= 82) {  range = 80; }
+ 	
+	
+	return range;
 }
 
 
@@ -268,7 +292,7 @@ while (DEF_TRUE) { /* All tasks bodies include an infinite loop */
              PORTB=0xFF;
           }
           /*limits the IR detection range to 35cm*/
-          else if(range_cm <= 35 && range_cm > 0) 
+          else if(range_cm <= 80 && range_cm > 0) 
           {
               /*Displays the Range on LCD*/
               DispStr(0,0,RangeStr[range_cm]);
@@ -281,23 +305,21 @@ while (DEF_TRUE) { /* All tasks bodies include an infinite loop */
                 DispClrLine(1);
                 DispStr(1,0,"SAFE");
                 PORTB=0xFF;
-                //PWMDTY0 = 130;
-                PWMPER5=50; //PWM_Freq=ClockSA/100=6000Hz/100=60Hz. CHANGE THIS  
+                PWMPER5=50; //PWM_Freq=ClockSA/100=6000Hz/100=60Hz.
+                PWMCNT5=0;
               }
               /*If range is between 20 and 13 then slow down*/ 
               else if(range_cm >= 13) {
                 DispClrLine(1);
                 DispStr(1,0,"SLOW DOWN");
-                PWMPER5=250; //PWM_Freq=ClockSA/100=6000Hz/100=60Hz. CHANGE THIS 
-                //PWMDTY0 = 110; 
+                PWMPER5=250; //PWM_Freq=ClockSA/100=6000Hz/100=60Hz. 
               }
               /*if range is less then 13cm then stop the motor*/
               else {
                 DispClrLine(1);
                 DispStr(1,0,"DANGEROUS");
                 PORTB=0x00;
-                PWMPER5=600; //PWM_Freq=ClockSA/100=6000Hz/100=60Hz. CHANGE THIS 
-                //PWMDTY0 = 0; 
+                PWMPER5=600; //PWM_Freq=ClockSA/100=6000Hz/100=60Hz.
               }
               
           } else {
